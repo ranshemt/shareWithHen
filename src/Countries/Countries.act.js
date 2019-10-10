@@ -1,4 +1,10 @@
-import { ON_HOME_MOUNT, ON_PREVIEW_CLICK, ON_CLOSE, ON_LIST_CHOOSE } from './Countries.act.types'
+import {
+  ON_HOME_MOUNT,
+  ON_PREVIEW_CLICK,
+  ON_CLOSE,
+  ON_LIST_CHOOSE,
+  ON_TYPE_SEARCH
+} from './Countries.act.types'
 import COUNTRIES from '../Assets/countriesList'
 
 const onHomeMount = localizeCountryCode => ({
@@ -18,31 +24,40 @@ const onHomeMount = localizeCountryCode => ({
   }
 })
 
-const onPriviewClick = () => ({
+const onPreviewClick = () => ({
   type: ON_PREVIEW_CLICK
 })
 const onClose = () => ({
   type: ON_CLOSE
 })
 
-const onListChoose = item => {
+const onListChoose = item => ({
+  type: ON_LIST_CHOOSE,
+  payload: {
+    ...item
+  }
+})
+
+const onTypeSearch = query => {
+  console.log(`searching: ${query}`)
+  const searchResults = COUNTRIES.filter(country => {
+    const searchableString = country.name.toUpperCase()
+    const queryUpperCase = query.toUpperCase()
+    return searchableString.indexOf(queryUpperCase) > -1
+  })
   return {
-    type: ON_LIST_CHOOSE,
+    type: ON_TYPE_SEARCH,
     payload: {
-      ...item
+      searchResults,
+      searchQuery: query
     }
   }
 }
-// const onListChoose = item => ({
-//     type: ON_LIST_CHOOSE,
-//     payload: {
-//       ...item
-//     }
-//   })
 
 export default {
   onHomeMount,
-  onPriviewClick,
+  onPreviewClick,
   onClose,
-  onListChoose
+  onListChoose,
+  onTypeSearch
 }

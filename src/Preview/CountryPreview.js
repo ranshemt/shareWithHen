@@ -25,7 +25,7 @@ const CountryPreview = props => {
   return (
     <TouchableOpacity
       style={S.containerCountry}
-      onPress={() => props.actions.CountriesActions.onPriviewClick()}
+      onPress={() => props.actions.CountriesActions.onPreviewClick()}
     >
       <View style={S.titleRow}>
         <Text style={S.title}>{props.countryCode}</Text>

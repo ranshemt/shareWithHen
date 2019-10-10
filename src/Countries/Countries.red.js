@@ -1,4 +1,11 @@
-import { ON_HOME_MOUNT, ON_PREVIEW_CLICK, ON_CLOSE, ON_LIST_CHOOSE } from './Countries.act.types'
+import {
+  ON_HOME_MOUNT,
+  ON_PREVIEW_CLICK,
+  ON_CLOSE,
+  ON_LIST_CHOOSE,
+  ON_TYPE_SEARCH
+} from './Countries.act.types'
+import COUNTRIES from '../Assets/countriesList'
 
 const initialState = {
   countryCode: 'IL',
@@ -6,7 +13,10 @@ const initialState = {
   localizeCountryCode: '',
   countryCallingCode: '972',
   emojiFlag: '',
-  showList: false
+  showList: false,
+  COUNTRIES,
+  searchQuery: '',
+  searchResults: [...COUNTRIES]
 }
 
 export default (state = initialState, action) => {
@@ -38,6 +48,12 @@ export default (state = initialState, action) => {
         countryName: action.payload.name,
         emojiFlag: action.payload.emojiFlagCode,
         showList: false
+      }
+    case ON_TYPE_SEARCH:
+      return {
+        ...state,
+        searchResults: [...action.payload.searchResults],
+        searchQuery: action.payload.searchQuery
       }
     default:
       return state

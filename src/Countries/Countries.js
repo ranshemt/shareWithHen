@@ -5,12 +5,13 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import COUNTRIES from '../Assets/countriesList'
 import S from './Countries.styles'
 import CountriesActions from './Countries.act'
 
 const mapStateToProps = ({ CountriesReducer }) => ({
-  showList: CountriesReducer.showList
+  showList: CountriesReducer.showList,
+  searchResults: CountriesReducer.searchResults,
+  searchQuery: CountriesReducer.searchQuery
 })
 const mapDispatchToProps = dispatch => ({
   actions: {
@@ -28,7 +29,7 @@ const Countries = props => {
     >
       <View style={S.container}>
         <FlatList
-          data={COUNTRIES}
+          data={props.searchResults}
           keyExtractor={item => item.countryCode}
           renderItem={({ item }) => (
             <TouchableOpacity
@@ -57,6 +58,9 @@ const Countries = props => {
                   keyboardType="default"
                   autoCapitalize={'none'}
                   placeholder="search countries"
+                  onChangeText={inputText => props.actions.CountriesActions.onTypeSearch(inputText)}
+                  value={props.searchQuery}
+                  autoFocus
                 />
                 <Icon
                   name="magnify"
@@ -76,7 +80,16 @@ const Countries = props => {
 
 Countries.propTypes = {
   actions: PropTypes.object,
-  showList: PropTypes.bool
+  showList: PropTypes.bool,
+  searchQuery: PropTypes.string,
+  searchResults: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      countryCode: PropTypes.string,
+      emojiFlagCode: PropTypes.string,
+      callingCode: PropTypes.string
+    })
+  )
 }
 export default connect(
   mapStateToProps,
