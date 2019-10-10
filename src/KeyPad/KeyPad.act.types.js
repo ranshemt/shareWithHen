@@ -1,0 +1,5 @@
+export const ON_DIGIT = 'ON_DIGIT'
+export const ON_DELETE = 'ON_DELETE'
+export const ON_LONG_DELETE = 'ON_LONG_DELETE'
+export const ON_PASTE = 'ON_PASTE'
+export const ON_SEND = 'ON_SEND'
